@@ -1,0 +1,19 @@
+When pushing "right key"
+  grab rows from board
+    row pop each value and assign it to x
+      if x = 0 -> unshift x
+      if row contains 0, pop highest index val to highest index 0 and unshift 0's if popped
+
+
+-> [0,2,0,2] -> [0,0,0,4]
+->[4,4,0,2] -> [0,0,8,2]
+->[2,4,4,4] -> [0,2,4,8]
+->[0,0,4,4] -> [0,0,0,8]
+->[2,2,2,2] -> [0,0,4,4]
+->[4,8,16,0] -> [0,4,8,16]
+<-[4,4,0,2] -> [8,2,0,0]
+(replace highest value with last 0)
+(if merging cells -> unshift 0 *1)
+(if merging cells <- push 0 *1)
+
+try out with [0,2,2,2]
