@@ -4,14 +4,14 @@ $ ->
     for row in array
       console.log row
 
-  a1 = [0..3]
-  a2 = [4..7]
-  a3 = [8..11]
-  a4 = [12..15]
+  # a1 = [0..3]
+  # a2 = [4..7]
+  # a3 = [8..11]
+  # a4 = [12..15]
 
-  masterArray = ->
-    masterArray = [a1, a2, a3, a4]
-  masterArray()
+  # masterArray = ->
+  #   masterArray = [a1, a2, a3, a4]
+  # masterArray()
 
   @board = [0..3].map -> [0..3].map -> 0
 
@@ -88,19 +88,6 @@ $ ->
   #     col[i] = r[c]
   #   col
 
-
-  # collapseCells = (cells, direction) ->
-  #   cells = cells.filter (x) -> x != 0
-  #   padding = 4 - cells.length
-
-  #   for i in [1..padding]
-  #     switch direction
-  #       when 'right', 'down' then cells.unshift 0
-  #       when 'left', 'up' then cells.push 0
-  #   cells
-
-  # console.log "collape cells: " + collapseCells([0,2,0,4], "left")
-
   mergeCells = (originalCells, direction) ->
     cells = originalCells
     switch direction
@@ -116,8 +103,6 @@ $ ->
             else if cells[y] != 0
               break
 
-    # add condition (if ... different value then break) [2, 0, 4, 2]
-    #when it hits 4 then break
       when 'right', 'down'
         for x in [3...0]
           for y in [x-1..0]
@@ -135,41 +120,46 @@ $ ->
   console.log "merging left : " + mergeCells([2, 0, 4, 2], 'left') #=> 4,0,0,2
 
   collapseCells = (originalCells, direction) ->
-    cells = originalCells
-    switch direction
-      when 'left', 'up'
-        for x in [0...3]
-          temp = cells[x]
-          if cells[x] == 0
-            cells[x] = cells[x+1]
-            cells[x+1] = temp
+    countZero = (array) ->
+      count = 0
+      for x in array
+        if x == 0
+          count = count + 1
+      count
+    console.log "counting 0's: " + countZero([0, 0, 0, 4])
 
-      when 'right', 'down'
-        for x in [3...0]
-          temp = cells[x]
-          if cells[x] == 0
-            cells[x] = cells[x-1]
-            cells[x-1] = temp
+    count = countZero(originalCells)
+
+    for i in [0...count]
+      cells = originalCells
+      switch direction
+        when 'left', 'up'
+          for x in [0...3]
+            temp = cells[x]
+            if cells[x] == 0
+              cells[x] = cells[x+1]
+              cells[x+1] = temp
+
+        when 'right', 'down'
+          for x in [3...0]
+            temp = cells[x]
+            if cells[x] == 0
+              cells[x] = cells[x-1]
+              cells[x-1] = temp
     cells
 
   console.log "collapsing: " + collapseCells([2, 0, 2, 2], 'right')
-  console.log "final operation: " + mergeCells([2, 0, 2, 4], 'left').DonecollapseCells()
+  console.log "collapsing: " + collapseCells([2, 0, 2, 4], 'left')
+  console.log "collapsing: " + collapseCells([2, 4, 0, 4], 'left')
+  console.log "collapsing: " + collapseCells([0, 0, 0, 4], 'left')
 
 
-  # collapseCellsV2 = (cells, direction) ->
-  #   findZero = (item) ->
-  #     switch direction
-  #       when 'left'
-  #         for x in [0...3]
-  #           n = cells[x]
-  #           m = cells[x+1]
-  #           temp = cells[x]
-  #         if n = 0
-  #           n = m
-  #           m = temp
-  #         else
-
-  #   console.log findZero
+  cells = [2, 0, 2, 4]
+  # 1. merge
+  result = mergeCells(cells)
+  @board
+  # 2. collapse
+  collapseCells(cells)
 
 
 
