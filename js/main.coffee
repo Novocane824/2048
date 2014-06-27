@@ -1,6 +1,6 @@
 
 $ ->
-  WinningTileValue = 16
+  WinningTileValue = 32
 
   buildBoard = ->
     [0..3].map -> [0..3].map -> 0
@@ -10,12 +10,26 @@ $ ->
   showBoard = (board) ->
     for x in [0..3]
       for y in [0..3]
+        $(".r#{x}.c#{y} ").css("background-color",colorCode(board[x][y]))
         if (board[x][y]) != 0
           $(".r#{x}.c#{y} > div").html(board[x][y])
         else
           $(".r#{x}.c#{y} > div").html(' ')
 
-  showBoard(@board)
+  colorCode = (color) ->
+    switch color
+      when 0 then "#c3c5c8"
+      when 2 then "#0f9dc8"
+      when 4 then "#4360c8"
+      when 8 then "#5d3bc8"
+      when 16 then "#9947c8"
+      when 32 then "#AB2E68"
+      when 64 then "#c852a3"
+      when 128 then "#c84446"
+      when 256 then "#c8ac4c"
+      when 512 then "#66c82e"
+      when 1024 then "#00c83a"
+      when 2048 then "#c86306"
 
   ppArray = (array) ->
     for row in array
@@ -236,6 +250,12 @@ $ ->
               cells[x] = cells[x-1]
               cells[x-1] = temp
     cells
+
+  $(".tryAgain").click (e) =>
+    @board = buildBoard()
+    generateTile(@board)
+    generateTile(@board)
+    showBoard(@board)
 
   generateTile(@board)
   generateTile(@board)
